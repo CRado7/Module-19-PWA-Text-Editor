@@ -18,12 +18,53 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      
+      new HtmlWebpackPlugin({
+        title: 'J.A.T.E',
+        template: './src/index.html',
+      }),
+
+      new InjectManifest({
+        swSrc: './src/sw.js',
+        swDest: 'sw.js',
+      }),
+
+      new WebpackPwaManifest({
+        name: 'J.A.T.E',
+        short_name: 'J.A.T.E',
+        description: 'Just Another Text Editor',
+        background_color: '#ffffff',
+        theme_color: '#ffffff',
+        start_url: '/',
+        publicPath: './',
+        icons: [
+          {
+            src: path.resolve('src/img/icon.png'),
+            sizes: [72, 96, 128, 144, 152, 192, 384, 512],
+            destination: path.join('assets', 'icons'),
+          },
+        ],
+      }),
     ],
 
     module: {
+      // CSS loaders
       rules: [
-        
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          // We use babel-loader in order to use ES6.
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
+            },
+          },
+        },
       ],
     },
   };
