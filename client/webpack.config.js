@@ -11,7 +11,10 @@ module.exports = () => {
     mode: 'development',
     entry: {
       main: './src/js/index.js',
-      install: './src/js/install.js'
+      install: './src/js/install.js',
+      database: './src/js/database.js',
+      editor: './src/js/editor.js',
+      header: './src/js/header.js',
     },
     output: {
       filename: '[name].bundle.js',
@@ -20,7 +23,7 @@ module.exports = () => {
     plugins: [
       new HtmlWebpackPlugin({
         title: 'J.A.T.E',
-        template: './src/index.html',
+        template: './index.html',
       }),
 
       new InjectManifest({
@@ -29,17 +32,19 @@ module.exports = () => {
       }),
 
       new WebpackPwaManifest({
-        name: 'J.A.T.E',
+        fingerprints: false,
+        inject: true,
+        name: 'Just Another Text Editor',
         short_name: 'J.A.T.E',
-        description: 'Just Another Text Editor',
+        description: 'Just nother Text Editor',
         background_color: '#ffffff',
         theme_color: '#ffffff',
         start_url: '/',
-        publicPath: './',
+        publicPath: '/',
         icons: [
           {
-            src: path.resolve('src/img/icon.png'),
-            sizes: [72, 96, 128, 144, 152, 192, 384, 512],
+            src: path.resolve('src/images/logo.png'),
+            sizes: [96, 128, 144, 152, 192, 384, 512],
             destination: path.join('assets', 'icons'),
           },
         ],
